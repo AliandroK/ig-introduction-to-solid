@@ -13,6 +13,11 @@ class User {
     this.id = uuidV4();
     this.admin = false;
   }
+
+  setAdmin(admin: boolean): void {
+    this.admin = admin;
+    this.updated_at = new Date();
+  }
 }
 
 export { User };

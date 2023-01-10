@@ -1,0 +1,157 @@
+{
+    "openapi":"3.0.0",
+    "info":{
+        "title":"Create Users",
+        "description":"Implementation made to create users and practice SOLID concepts and Swagger",
+        "version":"1.0.0",
+        "contact":["ali961114@gmail.com"]
+    },
+
+    "paths":{
+       "/users":{
+        "post":{
+           "tags":["Users"],
+           "summary":"Create user",
+           "description":"Creating a new user", 
+           "requestBody":{
+            "content":{
+                "application/json":{
+                    "schema":{
+                        "type":"object",
+                        "properties":{
+                            "name":{
+                                "type":"string"
+                            },
+                            "email":{
+                                "type":"string"
+                            }
+                            },
+                        "example":{
+                            "name":"User test",
+                            "email":"userteste@email.com"
+                        }
+                    }
+                }
+             }
+           },
+           "responses":{
+              "201":{
+                 "description":"Created"
+              },
+              "400":{
+                "description":"Error: Email already Exists"
+              }
+
+           }
+        },
+        "get":{
+            "tags":["Users"],
+            "summary":"List all Users",
+            "description":"List all users to users admin",
+            "parameters":[
+              {"name":"user_id", "in":"headers", "required":"true", "type":"string", "format":"uuid" }
+               
+            ],
+            "responses":{
+                "200":{
+                  "description":"Sucess! Return all users",
+                  "content":{
+                    "application/json":{
+                        "schema":{
+                            "type":"array",
+                            "items":{
+                                "type":"object",
+                                "properties":{
+                                    "id":{
+                                        "type":"string",
+                                        "format":"uuid"
+                                    },
+                                    "name":{
+                                       "type":"string" 
+                                    },
+                                    "admin":{
+                                        "type":"boolean" 
+                                    },
+                                    "email":{
+                                        "type":"string"
+                                    },
+                                    "created_at":{
+                                        "type":"string",
+                                        "format":"date"
+                                    },
+                                    "updated_at":{
+                                        "type":"string",
+                                        "format":"date"
+                                    }
+                                 
+
+                                }
+                            }
+                        }
+                    }
+                  }
+                },
+
+                "400":{
+                    "description":"Only admin users can list all Users or User not exists" 
+                }
+            }  
+            
+
+        }
+       },
+       "/users/:user_id/admin":{
+        "patch":{
+            "tags":["Users"]
+        }
+       },
+       "/users/{user_id}":{
+        "get":{
+            "tags":["Users"],
+            "summary":"Get user info by id",
+            "description":"Get user info by id",
+            "parameters":[{"name":"user_id", "in":"path","required":"true","type":"string","format":"uuid"}] ,
+            "responses":{
+                "200":{
+                    "description":"Sucess! Return user info",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "id":{
+                                        "type":"string",
+                                        "format":"uuid"
+                                    },
+                                    "name":{
+                                       "type":"string" 
+                                    },
+                                    "admin":{
+                                        "type":"boolean" 
+                                    },
+                                    "email":{
+                                        "type":"string"
+                                    },
+                                    "created_at":{
+                                        "type":"string",
+                                        "format":"date"
+                                    },
+                                    "updated_at":{
+                                        "type":"string",
+                                        "format":"date"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "400":{
+                    "description":"User not exists"
+                }
+            }
+        }
+       }
+
+    }
+
+}

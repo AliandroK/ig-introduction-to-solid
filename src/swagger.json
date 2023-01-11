@@ -14,6 +14,7 @@
            "summary":"Create user",
            "description":"Creating a new user", 
            "requestBody":{
+            "required":"true",
             "content":{
                 "application/json":{
                     "schema":{
@@ -36,10 +37,55 @@
            },
            "responses":{
               "201":{
-                 "description":"Created"
+                 "description":"Created",
+                 "content":{
+                    "application/json":{
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "id":{
+                                    "type":"string",
+                                    "format":"uuid"
+                                },
+                                "name":{
+                                   "type":"string" 
+                                },
+                                "admin":{
+                                    "type":"boolean" 
+                                },
+                                "email":{
+                                    "type":"string"
+                                },
+                                "created_at":{
+                                    "type":"string",
+                                    "format":"date"
+                                },
+                                "updated_at":{
+                                    "type":"string",
+                                    "format":"date"
+                                }
+                            }
+                        }
+                    }
+                 }
               },
               "400":{
-                "description":"Error: Email already Exists"
+                "description":"Error: Email already Exists",
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "error":{
+                                    "type":"string"
+                                }
+                            },
+                            "example":{
+                                "error":"Error: Email already Exists"
+                            }
+                        }
+                    }
+                }
               }
 
            }
@@ -49,7 +95,7 @@
             "summary":"List all Users",
             "description":"List all users to users admin",
             "parameters":[
-              {"name":"user_id", "in":"headers", "required":"true", "type":"string", "format":"uuid" }
+              {"name":"user_id", "in":"header", "required":"true", "type":"string", "format":"uuid" }
                
             ],
             "responses":{
@@ -93,16 +139,88 @@
                 },
 
                 "400":{
-                    "description":"Only admin users can list all Users or User not exists" 
+                    "description":"Only admin users can list all Users or User not exists",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "error":{
+                                        "type":"string"
+                                    }
+                                },
+                                "example":{
+                                    "error":"Only admin users can list all Users or User not exists"
+                                }
+                            }
+                        }
+                    } 
                 }
             }  
             
 
         }
        },
-       "/users/:user_id/admin":{
+       "/users/{user_id}/admin":{
         "patch":{
-            "tags":["Users"]
+            "tags":["Users"],
+            "summary":"Update user admin field",
+            "description":"Update user admin field",
+            "parameters":[{"name":"user_id", "in":"path", "type":"string", "format":"uuid", "required":"true"}],
+            "responses":{
+                "200":{
+                 "description":"Sucess! User was update!",
+                 "content":{
+                    "application/json":{
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "id":{
+                                    "type":"string",
+                                    "format":"uuid"
+                                },
+                                "name":{
+                                   "type":"string" 
+                                },
+                                "admin":{
+                                    "type":"boolean" 
+                                },
+                                "email":{
+                                    "type":"string"
+                                },
+                                "created_at":{
+                                    "type":"string",
+                                    "format":"date"
+                                },
+                                "updated_at":{
+                                    "type":"string",
+                                    "format":"date"
+                                }
+                            }
+                        }
+                    }
+                 }
+                },
+                "400":{
+                    "description":"User not exists!",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "error":{
+                                        "type":"string"
+                                    }
+                                },
+                                "example":{
+                                    "error":"User not exists"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
         }
        },
        "/users/{user_id}":{
@@ -146,7 +264,22 @@
                     }
                 },
                 "400":{
-                    "description":"User not exists"
+                    "description":"User not exists",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "error":{
+                                        "type":"string"
+                                    }
+                                },
+                                "example":{
+                                    "error":"User not exists"
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
